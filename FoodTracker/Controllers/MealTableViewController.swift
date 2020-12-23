@@ -127,7 +127,7 @@ extension MealTableViewController: UITableViewDelegate{
             meals.remove(at: indexPath.row)
             saveMeals()
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {}
+        }
     }
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
