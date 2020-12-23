@@ -24,7 +24,7 @@ class MealViewController: UIViewController{
         tfMealName.delegate = self
         setMeal()
         updateSavedButtonStatus()
-    }//viewDidLoad
+    }
     
     //MARK: -Actions
     @IBAction func selectImageFromGallery(_ sender: UITapGestureRecognizer) {
@@ -34,14 +34,14 @@ class MealViewController: UIViewController{
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
         present(imagePickerController, animated: true, completion: nil)
-    }//selectImageFromGallery
+    }
     
     //MARK: -Private Methods
     private func updateSavedButtonStatus(){
         
         let textField = tfMealName.text ?? ""
         saveButton.isEnabled = !textField.isEmpty
-    }//updateSavedButtonStatus
+    }
     
     private func setMeal(){
         
@@ -51,9 +51,9 @@ class MealViewController: UIViewController{
             imgMeal.image = meal.mealImage
             ratingControl.rating = meal.mealRating
         }
-    }//setMeal
+    }
     
-}//MealViewController
+}
 
 //MARK: -Delegate Extensions
 extension MealViewController: UITextFieldDelegate{
@@ -62,26 +62,26 @@ extension MealViewController: UITextFieldDelegate{
         
         textField.resignFirstResponder()
         return true
-    }//textFieldShouldReturn
+    }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         saveButton.isEnabled = false
-    }//textFieldDidBeginEditing
+    }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         updateSavedButtonStatus()
         navigationItem.title = tfMealName.text
-    }//textFieldDidEndEditing
-}//extension
+    }
+}
 
 extension MealViewController: UIImagePickerControllerDelegate{
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
         dismiss(animated: true, completion: nil)
-    }//ImagePickerControllerDidCancel
+    }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
@@ -91,8 +91,8 @@ extension MealViewController: UIImagePickerControllerDelegate{
             
             imgMeal.image = selectedImage
             dismiss(animated: true, completion: nil)
-    }//imagePickerController
-}//extension
+    }
+}
 
 extension MealViewController: UINavigationControllerDelegate{
     
@@ -110,7 +110,7 @@ extension MealViewController: UINavigationControllerDelegate{
         let image = imgMeal.image
         
         meal = Meal(mealName: name, mealRating: rating, mealImage: image)
-    }//prepare
+    }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         
@@ -123,6 +123,6 @@ extension MealViewController: UINavigationControllerDelegate{
         }else{
             fatalError("MealViewController is not in Navigation.")
         }
-    }//cancel
-}//extension
+    }
+}
 

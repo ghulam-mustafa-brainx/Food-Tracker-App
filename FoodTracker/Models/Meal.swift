@@ -17,7 +17,7 @@ class Meal: NSObject, NSCoding {
         static let name = "name"
         static let image = "image"
         static let rating = "rating"
-    }//PropertyKey
+    }
     
     //MARK: -Initiallizers
     init?(mealName: String, mealRating: Int, mealImage: UIImage?){
@@ -45,13 +45,13 @@ class Meal: NSObject, NSCoding {
         let image = coder.decodeObject(forKey: PropertyKey.image) as? UIImage
         let rating = coder.decodeInteger(forKey: PropertyKey.rating)
         self.init(mealName: name, mealRating: rating, mealImage: image)
-    }//init - NSCoder
+    }
     
     func encode(with coder: NSCoder) {
         
         coder.encode(mealName, forKey: PropertyKey.name)
         coder.encode(mealImage, forKey: PropertyKey.image)
         coder.encode(mealRating, forKey: PropertyKey.rating)
-    }//encode
+    }
 }
 

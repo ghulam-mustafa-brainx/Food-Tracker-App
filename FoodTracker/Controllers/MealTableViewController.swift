@@ -24,7 +24,7 @@ class MealTableViewController: UIViewController {
         navigationItem.leftBarButtonItem = editButtonItem
 
         loadData()
-    }//viewDidLoad
+    }
 
     
     // MARK: - Navigation Methods
@@ -51,7 +51,7 @@ class MealTableViewController: UIViewController {
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier ?? "")")
         }
-    }//prepare
+    }
     
     @IBAction func unwindToMealList(sender: UIStoryboardSegue){
         
@@ -68,7 +68,7 @@ class MealTableViewController: UIViewController {
             
             saveMeals()
         }
-    }//unwindToMealList
+    }
     
     //MARK: -Private Methods
     private func loadData(){
@@ -78,7 +78,7 @@ class MealTableViewController: UIViewController {
         }else{
             loadSampleMeals()
         }
-    }//loadData
+    }
     
     private func loadSampleMeals(){
         
@@ -98,12 +98,12 @@ class MealTableViewController: UIViewController {
         
         meals += [meal1, meal2, meal3]
         
-    }//loadSampleMeals
+    }
 
     private func getMeals() -> [Meal]?{
         
         return NSKeyedUnarchiver.unarchiveObject(withFile: Meal.ArchiveUrl.path) as? [Meal]
-    }//getMeals
+    }
     
     public func saveMeals(){
         
@@ -114,8 +114,8 @@ class MealTableViewController: UIViewController {
         }else{
             print("Failed to save data.")
         }
-    }//saveMeals
-}//MealViewController
+    }
+}
 
 //MARK: -Extensions
 extension MealTableViewController: UITableViewDelegate{
@@ -124,7 +124,6 @@ extension MealTableViewController: UITableViewDelegate{
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            // Delete the row from the data source
             meals.remove(at: indexPath.row)
             saveMeals()
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -134,10 +133,10 @@ extension MealTableViewController: UITableViewDelegate{
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-}//extension
+}
 
 extension MealTableViewController: UITableViewDataSource{
-    // MARK: - Table view data source
+    
     public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -161,4 +160,4 @@ extension MealTableViewController: UITableViewDataSource{
         
         return cell
     }
-}//extension
+}

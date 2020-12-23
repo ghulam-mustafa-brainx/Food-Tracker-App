@@ -47,7 +47,7 @@ import UIKit
         }else{
             rating = selectedRating
         }
-    }//ratingButtonTapped
+    }
     
     //MARK: -Private Methods
     private func setupButtons(){
@@ -63,7 +63,6 @@ import UIKit
         let filledStar = UIImage(named: "filledStar", in: bundle, compatibleWith: self.traitCollection)
         let highlighted  = UIImage(named: "highlightedStar", in: bundle, compatibleWith: self.traitCollection)
         
-        //Make New Buttons
         for index in 0..<starCount {
             let button = UIButton()
             
@@ -82,10 +81,10 @@ import UIKit
             
             addArrangedSubview(button)
             ratingButtons.append(button)
-        }//for-in loop
+        }
         
         updateButtonState()
-    }//setupButtons
+    }
     
     private func updateButtonState(){
         
@@ -115,7 +114,7 @@ import UIKit
             }else{
                 button.isSelected = false
             }
-        }//for-in loop
-    }//updateButtonState
+        }
+    }
     
 }
