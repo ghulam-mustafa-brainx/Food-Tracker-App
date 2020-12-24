@@ -4,82 +4,76 @@
 //
 //  Created by BrainX IOS 4 on 2020-12-14.
 //
-import UIKit
 import os.log
+import UIKit
 
-class MealViewController: UIViewController{
+class MealViewController: UIViewController {
 
-    //MARK: -Outlets
-    @IBOutlet weak var tfMealName: UITextField!
-    @IBOutlet weak var imgMeal: UIImageView!
+    //MARK: Outlets
+    @IBOutlet weak var mealName: UITextField!
+    @IBOutlet weak var mealImage: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
-    //MARK: -Properties
+    //MARK: Properties
     var meal: Meal?
     
+    //MARK: ViewController Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tfMealName.delegate = self
+        mealName.delegate = self
         setMeal()
         updateSavedButtonStatus()
     }
     
-    //MARK: -Actions
-    @IBAction func selectImageFromGallery(_ sender: UITapGestureRecognizer) {
-        
-        tfMealName.resignFirstResponder()
+    //MARK: Actions
+    @IBAction
+    func selectImageFromGallery(_ sender: UITapGestureRecognizer) {
+        mealName.resignFirstResponder()
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
         present(imagePickerController, animated: true, completion: nil)
     }
     
-    //MARK: -Private Methods
-    private func updateSavedButtonStatus(){
-        
-        let textField = tfMealName.text ?? ""
+    //MARK: Private Methods
+    private func updateSavedButtonStatus() {
+        let textField = mealName.text ?? ""
         saveButton.isEnabled = !textField.isEmpty
     }
     
-    private func setMeal(){
-        
-        if let meal = meal{
+    private func setMeal() {
+        if let meal = meal {
             navigationItem.title = meal.mealName
-            tfMealName.text = meal.mealName
-            imgMeal.image = meal.mealImage
+            mealName.text = meal.mealName
+            mealImage.image = meal.mealImage
             ratingControl.rating = meal.mealRating
         }
     }
     
 }
 
-//MARK: -Delegate Extensions
-extension MealViewController: UITextFieldDelegate{
-    
+//MARK: UITextFieldDelegate Methods
+extension MealViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         textField.resignFirstResponder()
         return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
         saveButton.isEnabled = false
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
         updateSavedButtonStatus()
-        navigationItem.title = tfMealName.text
+        navigationItem.title = mealName.text
     }
 }
 
-extension MealViewController: UIImagePickerControllerDelegate{
-    
+//MARK: UIImagePickerControllerDelegate Methods
+extension MealViewController: UIImagePickerControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        
         dismiss(animated: true, completion: nil)
     }
     
@@ -88,39 +82,36 @@ extension MealViewController: UIImagePickerControllerDelegate{
         guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
                 fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
             }
-            
-            imgMeal.image = selectedImage
+            mealImage.image = selectedImage
             dismiss(animated: true, completion: nil)
     }
 }
 
-extension MealViewController: UINavigationControllerDelegate{
-    
+//MARK: UINavigationControllerDelegate Methods
+extension MealViewController: UINavigationControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         super.prepare(for: segue, sender: sender)
 
-        guard let button = sender as? UIBarButtonItem, button == saveButton else{
+        guard let button = sender as? UIBarButtonItem, button == saveButton else {
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
             return
         }
-        
-        let name = tfMealName.text ?? ""
+        let name = mealName.text ?? ""
         let rating = ratingControl.rating
-        let image = imgMeal.image
+        let image = mealImage.image
         
         meal = Meal(mealName: name, mealRating: rating, mealImage: image)
     }
     
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        
+    @IBAction
+    func cancel(_ sender: UIBarButtonItem) {
         let isAddMode = presentingViewController is UINavigationController
         
         if isAddMode {
             dismiss(animated: true, completion: nil)
-        }else if let owingNavigationController = navigationController{
+        } else if let owingNavigationController = navigationController {
             owingNavigationController.popViewController(animated: true)
-        }else{
+        } else {
             fatalError("MealViewController is not in Navigation.")
         }
     }

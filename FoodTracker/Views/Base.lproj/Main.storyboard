@@ -127,10 +127,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="imgMeal" destination="QXe-9V-koP" id="TUt-pa-PvJ"/>
+                        <outlet property="mealImage" destination="QXe-9V-koP" id="TUt-pa-PvJ"/>
+                        <outlet property="mealName" destination="c3y-ap-Zj1" id="hOe-UD-t9A"/>
                         <outlet property="ratingControl" destination="3Zb-Ca-Ugo" id="T8S-gJ-3Hv"/>
                         <outlet property="saveButton" destination="Uvd-7x-6WC" id="Eqa-MC-iVI"/>
-                        <outlet property="tfMealName" destination="c3y-ap-Zj1" id="hOe-UD-t9A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

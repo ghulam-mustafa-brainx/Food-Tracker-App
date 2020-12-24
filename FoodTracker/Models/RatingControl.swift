@@ -1,58 +1,56 @@
 import UIKit
 
-@IBDesignable class RatingControl: UIStackView {
+@IBDesignable
+class RatingControl: UIStackView {
     
-    //MARK: -Properties
+    //MARK: Properties
     private var ratingButtons = [UIButton]()
-    @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0){
-        didSet{
+    @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0) {
+        didSet {
             setupButtons()
         }
     }
     @IBInspectable var starCount = 5 {
-        didSet{
+        didSet {
             setupButtons()
         }
     }
-    var rating  = 0{
-        didSet{
+    var rating  = 0 {
+        didSet {
             updateButtonState()
         }
     }
     
-    
-    //MARK: -Initiallizers
+    //MARK: Initiallizers
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
+        
         setupButtons()
     }
     
     required init(coder: NSCoder) {
-        
         super.init(coder: coder)
+        
         setupButtons()
     }
     
-    //MARK: -Button Actions
-    @objc func ratingButtonTapped(button: UIButton){
-        
-        guard let index = ratingButtons.firstIndex(of: button) else{
+    //MARK: Actions
+    @objc
+    func ratingButtonTapped(button: UIButton) {
+        guard let index = ratingButtons.firstIndex(of: button) else {
             fatalError("The button \(button) is not in \(ratingButtons)")
         }
-        
-        let selectedRating = index+1
-        if(selectedRating == rating){
+        let selectedRating = index + 1
+        if (selectedRating == rating) {
             rating = 0
-        }else{
+        } else {
             rating = selectedRating
         }
     }
     
-    //MARK: -Private Methods
-    private func setupButtons(){
-        
-        for button in ratingButtons{
+    //MARK: Private Methods
+    private func setupButtons() {
+        for button in ratingButtons {
             removeArrangedSubview(button)
             button.removeFromSuperview()
         }
@@ -82,23 +80,20 @@ import UIKit
             addArrangedSubview(button)
             ratingButtons.append(button)
         }
-        
         updateButtonState()
     }
     
-    private func updateButtonState(){
-        
+    private func updateButtonState() {
         for (index, button) in ratingButtons.enumerated() {
-            if(index < rating){
+            if (index < rating) {
                 button.isSelected = true
                 
                 let hintString: String?
-                if(rating == index+1){
+                if (rating == index+1) {
                     hintString = "Tap to reset the rating to zero."
-                }else{
+                } else {
                     hintString = nil
                 }
-                
                 let valueString: String
                 switch rating {
                 case 0:
@@ -108,13 +103,11 @@ import UIKit
                 default:
                     valueString = "\(rating) stars set."
                 }
-                
                 button.accessibilityHint = hintString
                 button.accessibilityValue = valueString
-            }else{
+            } else {
                 button.isSelected = false
             }
         }
     }
-    
 }
