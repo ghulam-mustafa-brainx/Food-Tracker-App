@@ -13,7 +13,7 @@ class MealTableViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     //MARK: Properties
-    var meals = [Meal]()
+    private var meals = [Meal]()
     
     //MARK: ViewController Lifecycle Methods
     override func viewDidLoad() {
@@ -56,9 +56,9 @@ class MealTableViewController: UIViewController {
                 meals[selectedIndexPath.row] = meal
                 tableView.reloadRows(at: [selectedIndexPath], with: .none)
             } else {
-                let NewIndexPath = IndexPath(row: meals.count, section: 0)
+                let newIndexPath = IndexPath(row: meals.count, section: 0)
                 meals.append(meal)
-                tableView.insertRows(at: [NewIndexPath], with: .automatic)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
             saveMeals()
         }
@@ -107,8 +107,7 @@ class MealTableViewController: UIViewController {
 
 //MARK: UITableViewDelegate Methods
 extension MealTableViewController: UITableViewDelegate {
-    internal func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             meals.remove(at: indexPath.row)
             saveMeals()
@@ -116,22 +115,22 @@ extension MealTableViewController: UITableViewDelegate {
         }
     }
     
-    internal func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 }
 
 //MARK: UITableViewDataSource Methods
 extension MealTableViewController: UITableViewDataSource {
-    internal func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return meals.count
     }
 
-    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "MealTableViewCell"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MealTableViewCell else {
             fatalError("The dequeued cell is not an instance of MealTableViewCell.")

@@ -16,7 +16,7 @@ class MealViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     //MARK: Properties
-    var meal: Meal?
+    private var meal: Meal?
     
     //MARK: ViewController Lifecycle Methods
     override func viewDidLoad() {
@@ -37,6 +37,19 @@ class MealViewController: UIViewController {
         present(imagePickerController, animated: true, completion: nil)
     }
     
+    @IBAction
+    func cancel(_ sender: UIBarButtonItem) {
+        let isAddMode = presentingViewController is UINavigationController
+        
+        if isAddMode {
+            dismiss(animated: true, completion: nil)
+        } else if let owingNavigationController = navigationController {
+            owingNavigationController.popViewController(animated: true)
+        } else {
+            fatalError("MealViewController is not in Navigation.")
+        }
+    }
+    
     //MARK: Private Methods
     private func updateSavedButtonStatus() {
         let textField = mealName.text ?? ""
@@ -44,17 +57,17 @@ class MealViewController: UIViewController {
     }
     
     private func setMeal() {
-        if let meal = meal {
-            navigationItem.title = meal.mealName
-            mealName.text = meal.mealName
-            mealImage.image = meal.mealImage
-            ratingControl.rating = meal.mealRating
-        }
+        guard let meal = meal else { return }
+        navigationItem.title = meal.mealName
+        mealName.text = meal.mealName
+        mealImage.image = meal.mealImage
+        ratingControl.rating = meal.mealRating
     }
     
 }
 
-//MARK: UITextFieldDelegate Methods
+//MARK: - UITextFieldDelegate Methods
+
 extension MealViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -71,23 +84,28 @@ extension MealViewController: UITextFieldDelegate {
     }
 }
 
-//MARK: UIImagePickerControllerDelegate Methods
+//MARK: - UIImagePickerControllerDelegate Methods
+
 extension MealViewController: UIImagePickerControllerDelegate {
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
-                fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
-            }
-            mealImage.image = selectedImage
-            dismiss(animated: true, completion: nil)
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+        mealImage.image = selectedImage
+        dismiss(animated: true, completion: nil)
     }
+    
 }
 
-//MARK: UINavigationControllerDelegate Methods
+//MARK: - UINavigationControllerDelegate Methods
+
 extension MealViewController: UINavigationControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -101,19 +119,6 @@ extension MealViewController: UINavigationControllerDelegate {
         let image = mealImage.image
         
         meal = Meal(mealName: name, mealRating: rating, mealImage: image)
-    }
-    
-    @IBAction
-    func cancel(_ sender: UIBarButtonItem) {
-        let isAddMode = presentingViewController is UINavigationController
-        
-        if isAddMode {
-            dismiss(animated: true, completion: nil)
-        } else if let owingNavigationController = navigationController {
-            owingNavigationController.popViewController(animated: true)
-        } else {
-            fatalError("MealViewController is not in Navigation.")
-        }
     }
 }
 
