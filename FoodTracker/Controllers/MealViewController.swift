@@ -16,7 +16,7 @@ class MealViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     //MARK: Properties
-    private var meal: Meal?
+    var meal: Meal?
     
     //MARK: ViewController Lifecycle Methods
     override func viewDidLoad() {
